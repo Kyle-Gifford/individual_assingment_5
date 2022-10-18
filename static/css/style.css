@@ -18,3 +18,12 @@ table,tr,th,td{
 a{
     margin-right:5px;
 }
+
+body{
+    background-color: black;
+    color: white;
+}
+
+.title{
+    font-size:  5em;
+}
