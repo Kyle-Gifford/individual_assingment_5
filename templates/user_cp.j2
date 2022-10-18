@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<head>
+    <title id="pageTitle">Users</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <script src="../static/js/my_script.js" defer></script>
+    <!--This is where css and script language goes-->
+</head>
+
+
+<body>
+    <div class="title">
+        Home
+    </div>
+    <div class="par">
+        Name: {{ user_data[user_data.active_user].name }}<br>
+        Account Balance: $<span id="funds">{{ user_data[user_data.active_user].funds }}</span>
+    </div>
+
+    <a href="/add_funds">
+        <button class="button">
+            Add funds
+        </button>
+    </a>
+    <br>
+    <a href="/my_items">
+        <button class="button">
+            My Items
+        </button>
+    </a>
+    <br>
+
+    <a href="/search">
+        <button class="button">
+            Search
+        </button>
+    </a>
+    <br>
+
+    <a href="/borrowd">
+        <button class="button">
+            Borrow'd items
+        </button>
+    </a>
+    <br>
+    
+    <a href="/logout">
+        <button class="button">
+            Logout
+        </button>
+    </a>
+
+</body>

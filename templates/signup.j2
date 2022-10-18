@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<head>
+    <title id="pageTitle">Users</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <script src="../static/js/my_script.js" defer></script>
+    <!--This is where css and script language goes-->
+</head>
+
+
+<body>
+    <div class="title">
+        Sign Up
+    </div>
+    <form id="signup" method="post" action="/signup">
+        <div class="aboveBar">
+            Name:
+        </div>
+        <div class="textBar">
+            <input type="text" id="name" name="name">
+        </div>
+        <div class="aboveBar">
+            E-mail:
+        </div>
+        <div class="textBar">
+            <input type="text" id="email" name="email">
+        </div>
+        <div class="aboveBar">
+            Password:
+        </div>
+        <div class="textBar">
+            <input type="text" id="password" name="password">
+        </div>
+        <button class="button" type="submit">
+            Submit
+        </button>
+    </form>
+    <br>
+    <a href="/">
+        <button class="button">
+            Back to Main Menu
+        </button>
+    </a>
+</body>
