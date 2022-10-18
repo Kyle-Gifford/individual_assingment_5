@@ -1,0 +1,20 @@
+table{
+    border-collapse:separate;
+    border-spacing:5px;
+}
+table th td{
+    padding:5px;
+}
+
+table,tr,th,td{
+    border: 1px solid black;
+}
+
+.addButton{
+    margin-top:20px;
+    margin-bottom:5px;
+}
+
+a{
+    margin-right:5px;
+}
