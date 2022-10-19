@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<head>
+    <title id="pageTitle">Add Funds</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <script src="../static/js/my_script.js" defer></script>
+    <!--This is where css and script language goes-->
+</head>
+
+
+<body>
+    <div class="title">
+        Add Funds
+    </div>
+    <div class="par">
+        Name: {{ user_data[user_data.active_user].name }}<br>
+        Account Balance: $<span id="funds">{{ user_data[user_data.active_user].funds }}</span>
+    </div>
+
+    <form id="signup" method="post" action="/add_funds">
+        <div class="aboveBar">
+            Amount:
+        </div>
+        <div class="textBar">
+            <input type="text" id="amount" name="amount">
+        </div>
+        <button class="button" type="submit">
+            Add
+        </button>
+    </form>
+
+
+    <a href="/user_cp">
+        <button class="button">
+            Back
+        </button>
+    </a>
+
+</body>

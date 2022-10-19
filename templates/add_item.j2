@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<head>
+    <title id="pageTitle">Add Funds</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <script src="../static/js/my_script.js" defer></script>
+    <!--This is where css and script language goes-->
+</head>
+
+
+<body>
+    <div class="title">
+        Add Item
+    </div>
+    
+
+    <form id="add_item" method="post" action="/add_item">
+        <div class="aboveBar">
+            Name:
+        </div>
+        <div class="textBar">
+            <input type="text" id="name" name="name">
+        </div>
+        <div class="aboveBar">
+            Value:
+        </div>
+        <div class="textBar">
+            <input type="text" id="value" name="value">
+        </div>
+        <div class="aboveBar">
+            Rate:
+        </div>
+        <div class="textBar">
+            <input type="text" id="rate" name="rate">
+        </div>
+        <button class="button" type="submit">
+            Add
+        </button>
+    </form>
+
+    <a href="/my_items">
+        <button class="button">
+            Cancel
+        </button>
+    </a>
+    <a href="/user_cp">
+        <button class="button">
+            Home
+        </button>
+    </a>
+
+</body>

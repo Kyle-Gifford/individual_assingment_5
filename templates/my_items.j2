@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<head>
+    <title id="pageTitle">My Items</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <script src="../static/js/my_items.js" defer></script>
+    <!--This is where css and script language goes-->
+</head>
+
+
+<body>
+    <div class="title">
+        My Items
+    </div>
+    <div class="type_filter" id="type_filter">
+    <span id="loaned">loaned</span>
+    <span id="unloaned">unloaned</span>
+    <span id="all">all</span>
+    </div>
+    <div id="table_container">
+    
+    </div>
+    <table>
+        <tr class="table_top" display="block">
+            <th>Name</th>
+            <th>Value</th>
+            <th>Rate</th>
+            <th>Status</th>
+        </tr>
+        
+        {# <tr class="table_start" display="">
+            <td>a</td>
+            <td>b</td>
+            <td>c</td>
+            <td>d</td>
+        </tr>
+        <tr class="end" hidden>
+            <td>e</td>
+            <td>f</td>
+            <td>g</td>
+            <td>h</td>
+        </tr> #}
+
+    </table>
+
+
+    {% for item in items_db %}
+        {% if item['owner'] == user_data['active_user'] %}
+            <mything status="{{item['status']}}" name="{{item['name']}}" value="{{item['value']}}"  rate="{{item['rate']}}"></mything>
+        {% endif %}
+    {% endfor %}
+
+    <a href="/add_item">
+        <button class="button">
+            Add Item
+        </button>
+    </a>
+    <br>
+    <a href="/">
+        <button class="button">
+            Back to Main Menu
+        </button>
+    </a>
+    <br>
+</body>
