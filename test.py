@@ -3,8 +3,6 @@
 # pip install flask-mysqldb==1.0.1
 
 
-
-import re
 from flask import Flask, request, render_template, redirect
 from credentials import port as PORT
 
@@ -39,6 +37,8 @@ def signup():
             new_user['items_owned'] = []
             user_data[str(email)] = new_user
             user_data['active_user'] = email
+        else:
+            return redirect('/signup')
         print(user_data)
         return redirect("/user_cp")
 
@@ -108,7 +108,7 @@ def my_items():
 
 @app.route('/search')
 def search():
-    return render_template('search.j2')
+    return render_template('search.j2', user_data = user_data, items_db = items_db)
 
 @app.route('/borrowd')
 def borrowd():
@@ -117,7 +117,7 @@ def borrowd():
 def add_new_item(name, value, rate):
     id = len(items_db)
     owner = user_data['active_user']
-    item = {'status': 'unloaned', 'name': name, 'value': value, 'rate': rate, 'owner': owner}
+    item = {'id': str(id), 'status': 'unloaned', 'name': name, 'value': value, 'rate': rate, 'owner': owner}
     items_db.append(item)
     user_data[owner]['items_owned'].append(id)
     return redirect('/my_items')
