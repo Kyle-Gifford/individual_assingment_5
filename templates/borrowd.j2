@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<head>
+    <title id="pageTitle">Borrow'd items</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <script src="../static/js/borrowd.js" defer></script>
+    <!--This is where css and script language goes-->
+</head>
+
+
+<body>
+    <div class="title">
+        Borrow'd Items
+    </div>
+    <div class="par">
+        Shows the items you have currently loaned.
+    </div>
+    <div class="aboveBar">
+        Enter keyword(s) to filter:
+    </div>
+    <div class="textBar">
+        <input type="text" id="query_string" name="query_string">
+    </div>
+    <div class="aboveBar">
+        Results:
+    </div>
+    <div id="table_container">
+    
+    </div>
+    <table>
+        <tr class="table_top" display="">
+            <th>Name</th>
+            <th>Value</th>
+            <th>Rate/Day</th>
+            <th>Days loaned</th>
+            <th></th>
+        </tr> 
+
+    </table>
+
+
+    {% for item in items_db %}
+            <mything days_loaned="{{item['days_loaned']}}" item_id="{{item['id']}}" status="{{item['status']}}" name="{{item['name']}}" value="{{item['value']}}"  rate="{{item['rate']}}"></mything>
+
+    {% endfor %}
+
+    
+    <br>
+    <a href="/user_cp">
+        <button class="button">
+            Back to Main Menu
+        </button>
+    </a>
+    <br>
+</body>

@@ -119,15 +119,18 @@ def borrow(id):
     user = user_data['active_user']
     item = None
     for curr_item in items_db:
-        if curr_item['id'] == id:
+        if curr_item['id'] == str(id):
             item = curr_item
     # ensure loan of item is valid
     if user is None or item is None:
         return redirect('/')
-    if id in user['owned_items']:
+    user = user_data[user]
+    print('----------------', item, user)
+    if str(id) in user['items_owned']:
         return redirect('/')
     if item['status'] != 'unloaned':
         return redirect('/')
+    print('****borrowing')
     if user['funds'] < item['rate']:
         return redirect('/')
     # update user and item
@@ -140,10 +143,18 @@ def borrow(id):
 
 @app.route('/borrowd')
 def borrowd():
-    user = user_data['active_user']
+    user = user_data[user_data['active_user']]
     if user is None:
         return redirect('/')
-    return render_template('borrowd.j2', user=user, items_db=items_db)
+    borrowd_items = []
+    for item in items_db:
+        print(item)
+        print(user)
+        print(item['id'])
+        print(user['items_borrowd'])
+        if int(item['id']) in user['items_borrowd']:
+            borrowd_items.append(item)
+    return render_template('borrowd.j2', user_data=user, items_db=borrowd_items)
 
 
 @app.route('/view/<int:id>')
@@ -162,7 +173,7 @@ def view(id):
 def add_new_item(name, value, rate, condition):
     id = len(items_db)
     owner = user_data['active_user']
-    item = {'condition': condition, 'id': str(id), 'status': 'unloaned', 'name': name, 'value': value, 'rate': rate, 'owner': owner}
+    item = {'days_loaned': '1', 'condition': condition, 'id': str(id), 'status': 'unloaned', 'name': name, 'value': value, 'rate': rate, 'owner': owner}
     items_db.append(item)
     user_data[owner]['items_owned'].append(id)
     return redirect('/my_items')
