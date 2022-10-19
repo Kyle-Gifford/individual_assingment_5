@@ -8,7 +8,7 @@ from credentials import port as PORT
 
 user_data = {'emails': ['jpi@usr.edu'],
                 'active_user': None,
-                'jpi@usr.edu': {'items_owned': [], 'funds': 0, 'name': 'joe', 'password': 'jip', 'email': 'jpi@usr.edu'}}
+                'jpi@usr.edu': {'items_borrowd': [], 'items_owned': [], 'funds': 0, 'name': 'joe', 'password': 'jip', 'email': 'jpi@usr.edu'}}
 
 items_db = []
 
@@ -35,6 +35,7 @@ def signup():
             new_user = {"password": password, "email": email, "name": name}
             new_user['funds'] = 0
             new_user['items_owned'] = []
+            new_user['items_borrowd'] = []
             user_data[str(email)] = new_user
             user_data['active_user'] = email
         else:
@@ -94,9 +95,10 @@ def add_item():
         name = request.form['name']
         value = int(request.form['value'])
         rate = int(request.form['rate'])
+        condition = request.form['condition']
     except:
         return redirect('/add_item')
-    return add_new_item(name, value, rate)
+    return add_new_item(name, value, rate, condition)
 
 
 @app.route('/my_items')
@@ -108,16 +110,59 @@ def my_items():
 
 @app.route('/search')
 def search():
+    if user_data['active_user'] == None:
+        return redirect('/')
     return render_template('search.j2', user_data = user_data, items_db = items_db)
+
+@app.route('/borrow/<int:id>')
+def borrow(id):
+    user = user_data['active_user']
+    item = None
+    for curr_item in items_db:
+        if curr_item['id'] == id:
+            item = curr_item
+    # ensure loan of item is valid
+    if user is None or item is None:
+        return redirect('/')
+    if id in user['owned_items']:
+        return redirect('/')
+    if item['status'] != 'unloaned':
+        return redirect('/')
+    if user['funds'] < item['rate']:
+        return redirect('/')
+    # update user and item
+    item['status'] = 'loaned'
+    user['items_borrowd'].append(id)
+    # show borrowd items
+    return redirect('/borrowd')
+
+
 
 @app.route('/borrowd')
 def borrowd():
-    return render_template('borrowd.j2')
+    user = user_data['active_user']
+    if user is None:
+        return redirect('/')
+    return render_template('borrowd.j2', user=user, items_db=items_db)
 
-def add_new_item(name, value, rate):
+
+@app.route('/view/<int:id>')
+def view(id):
+    item = None
+    print(items_db)
+    for curr_item in items_db:
+        print(curr_item)
+        if curr_item['id'] == str(id):
+            item = curr_item
+    if item is None:
+        return redirect('/search')
+    return render_template('view.j2', item=item)
+
+
+def add_new_item(name, value, rate, condition):
     id = len(items_db)
     owner = user_data['active_user']
-    item = {'id': str(id), 'status': 'unloaned', 'name': name, 'value': value, 'rate': rate, 'owner': owner}
+    item = {'condition': condition, 'id': str(id), 'status': 'unloaned', 'name': name, 'value': value, 'rate': rate, 'owner': owner}
     items_db.append(item)
     user_data[owner]['items_owned'].append(id)
     return redirect('/my_items')

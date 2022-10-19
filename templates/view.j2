@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<head>
+    <title id="pageTitle">View item</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <script src="../static/js/my_script.js" defer></script>
+    <!--This is where css and script language goes-->
+</head>
+
+
+<body>
+    <div class="title">
+        View Item
+    </div>
+    <div class="par">
+        Name: {{ item.name }}<br>
+        Item number: {{ item.id }}<br>
+        Condition: {{ item.condition }}<br>
+        Value: ${{ item.value }}<br>
+        Rate: ${{ item.rate }}<br>
+    </div>
+
+    <a href="/borrow/{{item.id}}">
+        <button class="button">
+            Borrow Now
+        </button>
+    </a>
+    <br>    
+    <a href="/search">
+        <button class="button">
+            Back
+        </button>
+    </a>
+    <br>
+    <a href="/user_cp">
+        <button class="button">
+            Home
+        </button>
+    </a>
+
+</body>
