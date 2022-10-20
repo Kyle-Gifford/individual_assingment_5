@@ -139,7 +139,27 @@ def borrow(id):
     # show borrowd items
     return redirect('/borrowd')
 
-
+@app.route('/return_item/<int:id>')
+def return_item(id):
+    user = user_data['active_user']
+    item = None
+    for curr_item in items_db:
+        if curr_item['id'] == str(id):
+            item = curr_item
+    # ensure return of item is valid
+    if user is None or item is None:
+        return redirect('/')
+    user = user_data[user]
+    if str(id) in user['items_owned']:
+        return redirect('/')
+    if item['status'] != 'loaned':
+        return redirect('/')
+    print('****returning')
+    # update user and item
+    item['status'] = 'unloaned'
+    user['items_borrowd'].remove(id)
+    # show borrowd items
+    return redirect('/borrowd')
 
 @app.route('/borrowd')
 def borrowd():

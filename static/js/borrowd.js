@@ -102,7 +102,7 @@ function loadOne(table, item)
     el_days_loaned.innerHTML = item.days_loaned;
     new_el.appendChild(el_days_loaned);
     let el_return = document.createElement('td');
-    el_return.innerHTML = '<a href="/return/' + item.id + '">Return</a>';
+    el_return.innerHTML = '<a href="/return_item/' + item.id + '">Return</a>';
     new_el.appendChild(el_return);
     new_el.id = item.id
     table.appendChild(new_el);
