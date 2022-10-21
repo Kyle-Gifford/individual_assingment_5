@@ -1,10 +1,18 @@
 # python version 3.9.7
 # pip install flask==2.2.2
-# pip install flask-mysqldb==1.0.1
 
 
 from flask import Flask, request, render_template, redirect
-from credentials import port as PORT
+
+
+PORT = None
+
+try:
+    from credentials import port as in_c
+    PORT = in_c
+except:
+    PORT = 64126 # replace with your desired port number
+
 
 user_data = {'emails': ['jpi@usr.edu'],
                 'active_user': None,
