@@ -1,3 +1,4 @@
 credentials.py
 .a5venv
 __pycache__
+.python-version
