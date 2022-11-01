@@ -6,6 +6,12 @@ from flask import Flask, request, render_template, redirect
 
 
 PORT = None
+HOST = 'localhost'
+
+img_host = 'localhost'
+img_port = 64799
+
+
 
 try:
     from credentials import port as in_c
@@ -20,6 +26,7 @@ user_data = {'emails': ['jpi@usr.edu'],
 
 items_db = []
 
+image_url = None
 
 app = Flask(__name__)
 
@@ -29,6 +36,15 @@ def root():
         return redirect('/user_cp')
     return render_template('index.j2')
 
+@app.route('/img_uploaded/<string:item_id>/<string:filename>')
+def img_uploaded(item_id, filename):
+    global image_url
+    print('/img_uploaded GET: ', item_id, filename)
+    image_url = 'http://{}:{}/static/uploads/{}'.format(img_host, img_port, filename)
+    print('newimageurl: ', image_url)
+    if user_data['active_user'] is not None:
+        return redirect('/add_item')
+    return render_template('index.j2')
 
 @app.route('/signup', methods=["GET", "POST"])
 def signup():
@@ -86,7 +102,6 @@ def add_funds():
         user_data[user_data['active_user']]['funds'] += amount
     return render_template('add_funds.j2', user_data=user_data)
 
-
 @app.route('/logout')
 def logout():
     user_data['active_user'] = None
@@ -94,10 +109,13 @@ def logout():
 
 @app.route('/add_item', methods=["GET", "POST"])
 def add_item():
+    id = len(items_db)
+    img_server = 'http://{}:{}/upload/{}/{}/{}'.format(img_host, img_port, HOST, PORT, id)
+
     if user_data['active_user'] == None:
         return redirect('/')
     if request.method == 'GET':
-        return render_template('add_item.j2')
+        return render_template('add_item.j2', img_server=img_server, i_url=image_url)
     name = value = rate = None
     try:
         name = request.form['name']
@@ -107,6 +125,14 @@ def add_item():
     except:
         return redirect('/add_item')
     return add_new_item(name, value, rate, condition)
+
+@app.route('/cancel_add_item')
+def cancel_add_item():
+    global image_url
+    if user_data['active_user'] is not None:
+        image_url = None
+        return redirect('/my_items')
+    return render_template('index.j2')
 
 
 @app.route('/my_items')
@@ -199,9 +225,13 @@ def view(id):
 
 
 def add_new_item(name, value, rate, condition):
+    global image_url
     id = len(items_db)
     owner = user_data['active_user']
     item = {'days_loaned': '1', 'condition': condition, 'id': str(id), 'status': 'unloaned', 'name': name, 'value': value, 'rate': rate, 'owner': owner}
+    if image_url is not None:
+        item['image_url'] = image_url
+    image_url = None
     items_db.append(item)
     user_data[owner]['items_owned'].append(id)
     return redirect('/my_items')

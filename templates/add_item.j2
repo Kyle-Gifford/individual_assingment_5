@@ -12,7 +12,10 @@
         Add Item
     </div>
     
-
+    <a href="{{ img_server }}"><button class="button">Upload Image</button></a>
+    {% if i_url != None %}
+    <br><img src={{i_url}}>
+    {% endif %}
     <form id="add_item" method="post" action="/add_item">
         <div class="aboveBar">
             Name:
@@ -37,12 +40,15 @@
         <div class="textBar">
             <input type="text" id="rate" name="rate">
         </div>
+        
+        <br>
         <button class="button" type="submit">
             Add
         </button>
     </form>
 
-    <a href="/my_items">
+    {# <a href="/my_items"> #}
+    <a href="/cancel_add_item">
         <button class="button">
             Cancel
         </button>
